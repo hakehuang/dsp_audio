@@ -1,0 +1,43 @@
+# Build artifacts
+build/
+bin/
+*.exe
+*.o
+*.a
+*.so
+
+# IDE specific
+.vscode/
+.idea/
+*.user
+*.aps
+*.ncb
+*.sdf
+*.suo
+
+# Editor temp files
+*.swp
+*.swo
+*~
+
+# CMake generated
+CMakeCache.txt
+CMakeFiles/
+Makefile
+cmake_install.cmake
+*.cmake
+
+# Dependency files
+*.d
+
+# System specific
+.DS_Store
+Thumbs.db
+
+# Local test files
+/test_noise_cancellation
+
+# Compiled binaries
+*.out
+*.ilk
+*.pdb
