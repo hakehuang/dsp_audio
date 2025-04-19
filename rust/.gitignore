@@ -1,0 +1,22 @@
+# Compiled files
+/target/
+**/*.rs.bk
+
+# Cargo files
+Cargo.lock
+
+# IDE specific files
+.vscode/
+.idea/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Debug files
+*.pdb
+*.dll
+*.so
+*.dylib
+*.lib
+*.exe

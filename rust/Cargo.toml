@@ -1,0 +1,16 @@
+[package]
+name = "noise_cancellation"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+name = "noise_cancellation"
+crate-type = ["cdylib", "rlib"]  # Add rlib for Rust linking
+
+[[bin]]
+name = "noise_cancellation"
+path = "src/main.rs"
+
+[dependencies]
+rand = "0.8"
+libc = "0.2"
