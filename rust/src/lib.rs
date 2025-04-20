@@ -4,6 +4,24 @@ use libc::c_float;
 const FILTER_LENGTH: usize = 128;
 const MU: f32 = 0.01;
 
+// Add noise measurement state
+static mut ADC_NOISE_RMS: f32 = 0.0;
+static mut NOISE_CALIBRATED: bool = false;
+
+pub fn calibrate_adc_noise(calibration_samples: usize) {
+    let mut sum = 0.0;
+    
+    for _ in 0..calibration_samples {
+        let sample = 0.0; // Replace with actual ADC read
+        sum += sample * sample;
+    }
+    
+    unsafe {
+        ADC_NOISE_RMS = (sum / calibration_samples as f32).sqrt();
+        NOISE_CALIBRATED = true;
+    }
+}
+
 pub struct LMSFilter {
     w: [f32; FILTER_LENGTH],
     x: [f32; FILTER_LENGTH],
@@ -29,7 +47,14 @@ impl LMSFilter {
             tap = if tap == 0 { FILTER_LENGTH - 1 } else { tap - 1 };
         }
 
-        let error = primary - y;
+        let mut error = primary - y;
+
+        // Add noise threshold
+        unsafe {
+            if NOISE_CALIBRATED && error.abs() < ADC_NOISE_RMS * 3.0 {
+                error = 0.0;
+            }
+        }
 
         let mut tap = self.index;
         for i in 0..FILTER_LENGTH {
@@ -60,4 +85,9 @@ pub extern "C" fn process_audio_frame(
             out_slice[i] = filter.process(main_slice[i], ref_slice[i]);
         }
     }
+}
+
+#[no_mangle]
+pub extern "C" fn calibrate_adc_noise_ffi(calibration_samples: u32) {
+    calibrate_adc_noise(calibration_samples as usize);
 }

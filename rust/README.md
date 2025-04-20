@@ -18,13 +18,17 @@ A real-time noise cancellation system implemented in Rust with C FFI compatibili
 ### Building
 ```bash
 # Debug build
+source ~/.cargo/env
 cargo build
 
 # Release build (optimized)
 cargo build --release
 
-# Run tests
+# run application
+cargo run
+
+# Run tests TBD
 cargo test
 
-# Run benchmark
+# Run benchmark TBD
 cargo bench
